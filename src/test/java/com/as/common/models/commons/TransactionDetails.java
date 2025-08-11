@@ -4,15 +4,17 @@ import com.as.common.models.enums.Currency;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Data
 public class TransactionDetails {
-    private int id;
-    private int fromAccountId;
-    private int toAccountId;
-    private int amount;
+    private long id;
+    private long fromAccountId;
+    private long toAccountId;
+    private BigDecimal amount;
     private Currency currency;
     private String createdAt;
 }

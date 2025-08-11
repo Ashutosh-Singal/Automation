@@ -17,17 +17,21 @@ public class PostmanClient {
     private final APIRequests apiRequests = new APIRequests();
 
     public AuthResultModel getAuthToken() {
-        Response response = apiRequests.post(
+        Response response = apiRequests.get(
                 RestRequest.builder()
                         .url(APIConstants.POSTMAN_BASE_URL + APIConstants.AUTH_ENDPOINT)
                         .build()
         );
-        AuthResultModel authResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AuthResultModel.class);
-        authResultModel.setStatusCode(authResultModel.getStatusCode());
-        return authResultModel;
+        try {
+            AuthResultModel authResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AuthResultModel.class);
+            authResultModel.setStatusCode(response.getStatusCode());
+            return authResultModel;
+        } catch (Exception e) {
+            return AuthResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
-    public AccountResultModel postAccountDetails(AccountInputModel accountInputModel, Header header) {
+    public AccountResultModel createAccount(AccountInputModel accountInputModel, Header header) {
         Response response = apiRequests.post(
                 RestRequest.builder()
                         .headers(Map.of(APIConstants.API_KEY, header.getApiKey()))
@@ -35,9 +39,13 @@ public class PostmanClient {
                         .body(accountInputModel)
                         .build()
         );
-        AccountResultModel accountResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AccountResultModel.class);
-        accountResultModel.setStatusCode(accountResultModel.getStatusCode());
-        return accountResultModel;
+        try {
+            AccountResultModel accountResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AccountResultModel.class);
+            accountResultModel.setStatusCode(response.getStatusCode());
+            return accountResultModel;
+        } catch (Exception e) {
+            return AccountResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
     public AccountDetailsResultModel getAllAccountDetails(Header header) {
@@ -47,12 +55,16 @@ public class PostmanClient {
                         .url(APIConstants.POSTMAN_BASE_URL + APIConstants.ACCOUNT_ENDPOINT)
                         .build()
         );
-        AccountDetailsResultModel accountDetailsResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AccountDetailsResultModel.class);
-        accountDetailsResultModel.setStatusCode(accountDetailsResultModel.getStatusCode());
-        return accountDetailsResultModel;
+        try {
+            AccountDetailsResultModel accountDetailsResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AccountDetailsResultModel.class);
+            accountDetailsResultModel.setStatusCode(response.getStatusCode());
+            return accountDetailsResultModel;
+        } catch (Exception e) {
+            return AccountDetailsResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
-    public CreateTransactionResultModel createTransaction(CreateTransactionInputModel createTransactionInputModel,Header header) {
+    public CreateTransactionResultModel createTransaction(CreateTransactionInputModel createTransactionInputModel, Header header) {
         Response response = apiRequests.post(
                 RestRequest.builder()
                         .headers(Map.of(APIConstants.API_KEY, header.getApiKey()))
@@ -60,12 +72,16 @@ public class PostmanClient {
                         .body(createTransactionInputModel)
                         .build()
         );
-        CreateTransactionResultModel createTransactionResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), CreateTransactionResultModel.class);
-        createTransactionResultModel.setStatusCode(createTransactionResultModel.getStatusCode());
-        return createTransactionResultModel;
+        try {
+            CreateTransactionResultModel createTransactionResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), CreateTransactionResultModel.class);
+            createTransactionResultModel.setStatusCode(response.getStatusCode());
+            return createTransactionResultModel;
+        } catch (Exception e) {
+            return CreateTransactionResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
-    public TransactionDetailsResultModel getTransactionDetailsByToAccountId(int toAccountId, Header header) {
+    public TransactionDetailsResultModel getTransactionDetailsByToAccountId(long toAccountId, Header header) {
         Response response = apiRequests.get(
                 RestRequest.builder()
                         .headers(Map.of(APIConstants.API_KEY, header.getApiKey()))
@@ -73,45 +89,61 @@ public class PostmanClient {
                         .queryParams(Map.of(APIConstants.TO_ACCOUNT_ID, toAccountId))
                         .build()
         );
-        TransactionDetailsResultModel transactionDetailsResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), TransactionDetailsResultModel.class);
-        transactionDetailsResultModel.setStatusCode(transactionDetailsResultModel.getStatusCode());
-        return transactionDetailsResultModel;
+        try {
+            TransactionDetailsResultModel transactionDetailsResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), TransactionDetailsResultModel.class);
+            transactionDetailsResultModel.setStatusCode(response.getStatusCode());
+            return transactionDetailsResultModel;
+        } catch (Exception e) {
+            return TransactionDetailsResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
-    public TransactionDetailResultModel getTransactionDetailsById(int transactionId, Header header) {
+    public TransactionDetailResultModel getTransactionDetailsById(long transactionId, Header header) {
         Response response = apiRequests.get(
                 RestRequest.builder()
                         .headers(Map.of(APIConstants.API_KEY, header.getApiKey()))
                         .url(APIConstants.POSTMAN_BASE_URL + APIConstants.TRANSACTIONS_ENDPOINT + "/" + transactionId)
                         .build()
         );
-        TransactionDetailResultModel transactionDetailResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), TransactionDetailResultModel.class);
-        transactionDetailResultModel.setStatusCode(transactionDetailResultModel.getStatusCode());
-        return transactionDetailResultModel;
+        try {
+            TransactionDetailResultModel transactionDetailResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), TransactionDetailResultModel.class);
+            transactionDetailResultModel.setStatusCode(response.getStatusCode());
+            return transactionDetailResultModel;
+        } catch (Exception e) {
+            return TransactionDetailResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
-    public AccountDetailResultModel getAccountDetailsById(int accountId, Header header) {
+    public AccountDetailResultModel getAccountDetailsById(long accountId, Header header) {
         Response response = apiRequests.get(
                 RestRequest.builder()
                         .headers(Map.of(APIConstants.API_KEY, header.getApiKey()))
                         .url(APIConstants.POSTMAN_BASE_URL + APIConstants.ACCOUNT_ENDPOINT + "/" + accountId)
                         .build()
         );
-        AccountDetailResultModel accountDetailResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AccountDetailResultModel.class);
-        accountDetailResultModel.setStatusCode(accountDetailResultModel.getStatusCode());
-        return accountDetailResultModel;
+        try {
+            AccountDetailResultModel accountDetailResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), AccountDetailResultModel.class);
+            accountDetailResultModel.setStatusCode(response.getStatusCode());
+            return accountDetailResultModel;
+        } catch (Exception e) {
+            return AccountDetailResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
-    public DeleteAccountResultModel deleteAccountById(int accountId, Header header) {
+    public DeleteAccountResultModel deleteAccountById(long accountId, Header header) {
         Response response = apiRequests.delete(
                 RestRequest.builder()
                         .headers(Map.of(APIConstants.API_KEY, header.getApiKey()))
                         .url(APIConstants.POSTMAN_BASE_URL + APIConstants.ACCOUNT_ENDPOINT + "/" + accountId)
                         .build()
         );
-        DeleteAccountResultModel deleteAccountResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), DeleteAccountResultModel.class);
-        deleteAccountResultModel.setStatusCode(deleteAccountResultModel.getStatusCode());
-        return deleteAccountResultModel;
+        try {
+            DeleteAccountResultModel deleteAccountResultModel = CommonSerializationUtil.readObject(response.getBody().asString(), DeleteAccountResultModel.class);
+            deleteAccountResultModel.setStatusCode(response.getStatusCode());
+            return deleteAccountResultModel;
+        } catch (Exception e) {
+            return DeleteAccountResultModel.builder().statusCode(response.getStatusCode()).build();
+        }
     }
 
 }

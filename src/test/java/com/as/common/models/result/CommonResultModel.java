@@ -1,16 +1,17 @@
 package com.as.common.models.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.apache.http.HttpStatus;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommonResultModel {
-    private HttpStatus statusCode;
+    private int statusCode;
     private String message;
 }

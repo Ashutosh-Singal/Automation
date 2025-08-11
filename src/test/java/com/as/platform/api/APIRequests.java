@@ -1,11 +1,14 @@
 package com.as.platform.api;
 
 import com.as.common.models.commons.RestRequest;
+import com.as.common.utils.CommonSerializationUtil;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class APIRequests {
     private RequestSpecification buildRequest(RestRequest req) {
 
@@ -19,10 +22,6 @@ public class APIRequests {
             request.queryParams(req.getQueryParams());
         }
 
-        if (req.getPathParams() != null) {
-            request.pathParams(req.getPathParams());
-        }
-
         if (req.getBody() != null) {
             request.contentType(ContentType.JSON);
             request.body(req.getBody());
@@ -32,48 +31,63 @@ public class APIRequests {
     }
 
     public Response get(RestRequest req) {
-        return buildRequest(req)
+        log.info("GET Request: " + CommonSerializationUtil.writeString(req));
+        Response response = buildRequest(req)
                 .when()
                 .get(req.getUrl())
                 .then()
                 .extract()
                 .response();
+        log.info("GET Response: Status Code: {}, Body: {}", response.getStatusCode(), CommonSerializationUtil.writeString(response.getBody().asString()));
+        return response;
     }
 
     public Response post(RestRequest req) {
-        return buildRequest(req)
+        log.info("POST Request: " + CommonSerializationUtil.writeString(req));
+        Response response = buildRequest(req)
                 .when()
                 .post(req.getUrl())
                 .then()
                 .extract()
                 .response();
+        log.info("POST Response: Status Code: {}, Body: {}", response.getStatusCode(), CommonSerializationUtil.writeString(response.getBody().asString()));
+        return response;
     }
 
     public Response put(RestRequest req) {
-        return buildRequest(req)
+        log.info("PUT Request: " + CommonSerializationUtil.writeString(req));
+        Response response = buildRequest(req)
                 .when()
                 .put(req.getUrl())
                 .then()
                 .extract()
                 .response();
+        log.info("PUT Response: Status Code: {}, Body: {}", response.getStatusCode(), CommonSerializationUtil.writeString(response.getBody().asString()));
+        return response;
     }
 
     public Response delete(RestRequest req) {
-        return buildRequest(req)
+        log.info("DELETE Request: " + CommonSerializationUtil.writeString(req));
+        Response response = buildRequest(req)
                 .when()
                 .delete(req.getUrl())
                 .then()
                 .extract()
                 .response();
+        log.info("DELETE Response: Status Code: {}, Body: {}", response.getStatusCode(), CommonSerializationUtil.writeString(response.getBody().asString()));
+        return response;
     }
 
     public Response patch(RestRequest req) {
-        return buildRequest(req)
+        log.info("PATCH Request: " + CommonSerializationUtil.writeString(req));
+        Response response = buildRequest(req)
                 .when()
                 .patch(req.getUrl())
                 .then()
                 .extract()
                 .response();
+        log.info("PATCH Response: Status Code: {}, Body: {}", response.getStatusCode(), CommonSerializationUtil.writeString(response.getBody().asString()));
+        return response;
     }
 
 }

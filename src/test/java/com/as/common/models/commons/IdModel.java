@@ -8,5 +8,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 public class IdModel {
-    private int id;
+    private long id;
 }

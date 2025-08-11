@@ -1,22 +1,22 @@
 package com.as.platform.api.test;
 
-import com.as.common.utils.Common;
+import com.as.common.utils.CommonUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
 
 public class TestBase {
 
-    private static ITestContext testContext;
-    private final Common common = new Common();
+    protected ITestContext testContext;
+    private final CommonUtils commonUtils = new CommonUtils();
 
-    @BeforeSuite
+    @BeforeClass(alwaysRun = true)
     public void setUp(ITestContext context) {
         testContext = context;
     }
 
-    @AfterSuite
-    public void tearDown() {
-        common.generateAllureReport(testContext);
-    }
+//    @AfterSuite
+//    public void tearDown() {
+//        commonUtils.generateAllureReport(testContext);
+//    }
 }

@@ -4,14 +4,15 @@ import com.as.common.models.enums.Currency;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Data
-public class CreateTransactionInputModel extends CommonInputModel {
-    private int fromAccountId;
-    private int toAccountId;
-    private int amount;
+public class CreateTransactionInputModel{
+    private long fromAccountId;
+    private long toAccountId;
+    private BigDecimal amount;
     private Currency currency;
 }

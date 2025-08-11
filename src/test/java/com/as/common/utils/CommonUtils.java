@@ -8,14 +8,32 @@ import java.util.List;
 import java.util.Objects;
 
 @Slf4j
-public class Common {
+public class CommonUtils {
 
     static int childXmlCount = 0;
-    private final Listeners listeners = new Listeners();
+    private final Listeners listeners;
+
+
+    public CommonUtils(Listeners listeners) {
+        this.listeners = listeners;
+    }
+
+    public CommonUtils() {
+        this.listeners = new Listeners(this);
+    }
 
     public void executeShellCmd(String shellCmd) {
         try {
-            Process process = Runtime.getRuntime().exec(shellCmd);
+            String os = System.getProperty("os.name").toLowerCase();
+            String[] cmd;
+
+            if (os.contains("win")) {
+                cmd = new String[]{"cmd", "/c", shellCmd};
+            } else {
+                cmd = new String[]{"/bin/sh", "-c", shellCmd};
+            }
+
+            Process process = Runtime.getRuntime().exec(cmd);
             process.waitFor();
         } catch (Exception e) {
             e.printStackTrace();

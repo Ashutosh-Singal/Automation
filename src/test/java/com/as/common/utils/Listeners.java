@@ -12,7 +12,15 @@ import java.util.*;
 @Slf4j
 public class Listeners extends AllureTestNg {
 
-    private final Common common = new Common();
+    private final CommonUtils commonUtils;
+
+    public Listeners(CommonUtils commonUtils) {
+        this.commonUtils = commonUtils;
+    }
+    public Listeners() {
+        this.commonUtils = new CommonUtils(this);
+    }
+
 
     @Override
     public void onStart(ITestContext context) {
@@ -73,12 +81,12 @@ public class Listeners extends AllureTestNg {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String reportFolder = "allure-report_" + simpleDateFormat.format(new Date());
         try {
-            common.executeShellCmd("mkdir allure-history");
-            common.executeShellCmd("mkdir allure-reports");
-            common.executeShellCmd("cp -R allure-history/history target/allure-results");
+            commonUtils.executeShellCmd("mkdir allure-history");
+            commonUtils.executeShellCmd("mkdir allure-reports");
+            commonUtils.executeShellCmd("cp -R allure-history/history target/allure-results");
             Thread.sleep(500);
-            common.executeShellCmd("allure generate --clean target/allure-results -o allure-reports/" + reportFolder);
-            common.executeShellCmd("cp -R allure-reports/" + reportFolder + "/history allure-history");
+            commonUtils.executeShellCmd("allure generate --clean target/allure-results -o allure-reports/" + reportFolder);
+            commonUtils.executeShellCmd("cp -R allure-reports/" + reportFolder + "/history allure-history");
         } catch (Exception e) {
             e.printStackTrace();
         }
